@@ -4,22 +4,18 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from groq import Groq
 import streamlit as st
-
-# Gemini Client
+#From client 
 client = Groq(
     api_key=st.secrets["GROQ_API_KEY"]
 )
 # Load data
 data = joblib.load('medical_data.pkl')
-
 # Load FAISS index
 idx = faiss.read_index('faiss_index.faiss')
-
 # Load embedding model
 model = SentenceTransformer(
     'embedding_model'
 )
-
 st.title('AI Medical Assistant')
 #Creating a form for taking input from user 
 with st.form('chat_form',clear_on_submit=True):
@@ -33,18 +29,13 @@ if(send):
     else:
         # Convert query to embedding
         embedding = np.array(model.encode([Data]),dtype='float32')
-
         # FAISS search
         distance, indices = idx.search(embedding,k=3)
-
         # Retrieve context
         retrieved_text = []
-
         for i in indices[0]:
             retrieved_text.append(data.iloc[i]['text'])
-
         context = '\n'.join(retrieved_text[:2])
-
         # Prompt
         prompt = f"""
         You are an expert AI Medical Assistant.
@@ -61,7 +52,7 @@ if(send):
         5. Give one-line Hinglish summary
         Format output properly.
         """
-        # Gemini response
+        #Response from Groq LLM
         response = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[
