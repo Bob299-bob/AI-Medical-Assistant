@@ -5,9 +5,6 @@ from sentence_transformers import SentenceTransformer
 from groq import Groq
 import streamlit as st
 
-# Load env
-load_dotenv()
-
 # Gemini Client
 client = Groq(
     api_key=st.secrets["GROQ_API_KEY"]
