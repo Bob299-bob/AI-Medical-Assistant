@@ -1,0 +1,7 @@
+streamlit
+joblib
+faiss-cpu
+numpy
+sentence-transformers
+groq
+transformers
