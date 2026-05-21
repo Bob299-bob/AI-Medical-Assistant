@@ -1,4 +1,3 @@
-from fastapi import FastAPI
 import joblib
 import faiss
 import numpy as np
